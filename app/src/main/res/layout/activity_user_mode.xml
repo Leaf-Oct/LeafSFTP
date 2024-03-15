@@ -1,229 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.UserModeActivity"
-    android:orientation="vertical">
+    tools:context=".activity.UserModeActivity">
 
-    <RelativeLayout
-        android:id="@+id/mode_switch_area"
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:scrollbars="vertical"
+        android:id="@+id/users_recyclerview"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/view_list_item"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
         android:clickable="true"
-        android:focusable="true"
-        android:minHeight="70dp">
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:background="#00000000"
-            android:src="@drawable/auto_search"
-            android:id="@+id/auto_detect"/>
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:id="@+id/mode_switch"
-            android:layout_centerInParent="true"
-            android:layout_margin="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="LeafMode"
-            android:layout_toStartOf="@id/mode_switch"
-            android:layout_centerVertical="true"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Custom"
-            android:layout_toEndOf="@id/mode_switch"
-            android:layout_centerVertical="true"/>
-
-        <ImageButton
-            android:id="@+id/mode_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dp"
-            android:background="#00000000"
-            android:src="@drawable/info" />
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/ssl_area"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="false"
-        android:focusable="true"
-        android:minHeight="70dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="启用SSL"
-                android:textColor="#000000"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/enable_ssl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:clickable="false"
-            android:layout_marginEnd="25dp" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="#dddddd" />
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/custom_path_area"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:minHeight="70dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="自定义路径"
-                android:textColor="#000000"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/custom_path_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="/"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="25dp"
-            android:src="@drawable/arrow_right" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="#dddddd" />
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/inner_path_area"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:minHeight="70dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="内部存储路径"
-                android:textColor="#000000"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/inner_path_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="/storage/emulate/0"/>
-
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="25dp"
-            android:src="@drawable/arrow_right" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="#dddddd" />
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/sd_path_area"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:minHeight="70dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SD卡路径"
-                android:textColor="#000000"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/sd_path_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="/storage"/>
-
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="25dp"
-            android:src="@drawable/arrow_right" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="#dddddd" />
-    </RelativeLayout>
-</LinearLayout>
+        app:srcCompat="@drawable/add"/>
+</FrameLayout>

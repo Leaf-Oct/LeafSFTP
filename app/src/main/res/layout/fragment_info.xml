@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragment.FragmentInfo"
+    android:padding="16dp">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="阴间配色怎么了? 我就喜欢" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="简介"
+        android:textSize="20sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="基于Apache MINA SSHD库开发的Android平台的SFTP服务端，可供与其它设备(如电脑)安全的双向文件传输。\n其它传输方式例如FTP, HTTP，存在明文传输，不安全，单向传输等问题，故采用SFTP作为解决方案。\n在UI设计上，抄袭(划掉)参考了多年前的开源项目droid-sftp(hakkon.sftpserver)"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="未来规划"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="安卓系统软件生态对sftp支持不足，因此未来将加入FTP, WebDAV等传输协议的支持。\n同时加入简单文本传输的功能，类似即时通讯"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开源地址:\n https://github.com/Leaf-Oct/LeafSFTP"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="使用的开源库清单:\nApache MINA SSHD, Apache commons-io, Eventbus, Room"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开发者: 十月叶\n图标画师: 心脏弱真君"/>
+
+</LinearLayout>

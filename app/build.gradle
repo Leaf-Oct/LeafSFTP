@@ -3,19 +3,18 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
-        applicationId "cn.leaf.leafftp"
-        minSdk 23
-        targetSdk 32
+        applicationId "cn.leaf.leafsftp"
+        minSdk 26
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        ndk{
-            abiFilters 'armeabi-v7a', 'arm64-v8a'
-        }
+//        ndk{
+//            abiFilters 'armeabi-v7a', 'arm64-v8a'
+//        }
     }
 
     buildTypes {
@@ -30,24 +29,35 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_16
-        targetCompatibility JavaVersion.VERSION_16
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     buildFeatures {
         viewBinding true
     }
     packagingOptions{
         exclude 'META-INF/DEPENDENCIES'
+//        exclude 'META-INF/INDEX.LIST'
     }
 }
 
 dependencies {
-    implementation 'org.slf4j:slf4j-simple:1.7.36'
+    def sshd_version = "2.12.1"
+    // https://mvnrepository.com/artifact/org.apache.sshd/sshd-contrib
+    implementation "org.apache.sshd:sshd-contrib:$sshd_version"
+
+    implementation "org.apache.sshd:sshd-common:$sshd_version"
+    implementation "org.apache.sshd:sshd-core:$sshd_version"
+    implementation "org.apache.sshd:sshd-sftp:$sshd_version"
+//    implementation "org.apache.sshd:sshd-netty:$sshd_version"
+
     implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    implementation 'org.apache.ftpserver:ftpserver-core:1.2.0'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'org.greenrobot:eventbus:3.3.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    def room_version = "2.5.2"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
 }
