@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
+import android.util.Log;
 
 import org.apache.sshd.common.file.FileSystemFactory;
 import org.apache.sshd.common.file.virtualfs.VirtualFileSystemFactory;
@@ -74,9 +75,15 @@ public class SFTPServerService extends IntentService {
         sshd.setPasswordAuthenticator((username, password, session) -> {
             var pwd=dao.getPwdFromUser(username);
             if (pwd==null){
+//                Log.i("user", "no exist");
                 return false;
             }
             var enable=dao.getEnableStatusFromUser(username);
+//            Log.i("username", username);
+//            Log.i("password", password);
+//            Log.i("pwd in db", pwd);
+//            Log.i("enable", enable+"");
+//            Log.i("result", Boolean.toString(password.equals(pwd)&&enable));
             return password.equals(pwd)&&enable;
 
         });

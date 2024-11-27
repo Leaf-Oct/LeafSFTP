@@ -6,7 +6,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "cn.leaf.leafsftp"
+        applicationId "cn.leaf.wavingleaf"
         minSdk 26
         targetSdk 34
         versionCode 2
@@ -45,11 +45,15 @@ dependencies {
     def sshd_version = "2.12.1"
     // https://mvnrepository.com/artifact/org.apache.sshd/sshd-contrib
     implementation "org.apache.sshd:sshd-contrib:$sshd_version"
-
     implementation "org.apache.sshd:sshd-common:$sshd_version"
     implementation "org.apache.sshd:sshd-core:$sshd_version"
     implementation "org.apache.sshd:sshd-sftp:$sshd_version"
 //    implementation "org.apache.sshd:sshd-netty:$sshd_version"
+
+    // https://mvnrepository.com/artifact/org.apache.ftpserver/ftplet-api
+    implementation 'org.apache.ftpserver:ftplet-api:1.2.0'
+    // https://mvnrepository.com/artifact/org.apache.ftpserver/ftpserver-core
+    implementation 'org.apache.ftpserver:ftpserver-core:1.2.0'
 
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.8.0'

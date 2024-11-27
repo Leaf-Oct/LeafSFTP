@@ -14,5 +14,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "LeafFtp"
+rootProject.name = "Waving Leaf"
 include ':app'
