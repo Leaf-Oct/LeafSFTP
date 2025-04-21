@@ -2,10 +2,8 @@ package cn.leaf.leafsftp.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -13,35 +11,27 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
 import android.provider.DocumentsContract;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.File;
-import java.util.List;
 
-import cn.leaf.leafsftp.R;
-import cn.leaf.leafsftp.activity.UserModeActivity;
 import cn.leaf.leafsftp.database.UserDao;
 import cn.leaf.leafsftp.database.UserDatabaseSingleton;
 import cn.leaf.leafsftp.databinding.FragmentEditUserBinding;
 import cn.leaf.leafsftp.listener.UserListUpdateListener;
-import cn.leaf.leafsftp.model.Password;
-import cn.leaf.leafsftp.model.User;
+import cn.leaf.leafsftp.model.SFTPUser;
 import cn.leaf.leafsftp.sharedpreferences.Config;
 
 public class FragmentEditUser extends DialogFragment {
 
     boolean is_new;
-    User user;
+    SFTPUser user;
     EditText input_label, input_user, input_password, input_home;
     Button btn_browse, btn_in, btn_sd, btn_delete, btn_cancel, btn_apply;
 
@@ -54,7 +44,7 @@ public class FragmentEditUser extends DialogFragment {
 
     UserDao dao=UserDatabaseSingleton.getInstance(getContext()).getSSH_UserDao();
 
-    public FragmentEditUser(boolean is_new, User user, UserListUpdateListener l) {
+    public FragmentEditUser(boolean is_new, SFTPUser user, UserListUpdateListener l) {
         this.is_new = is_new;
         this.user = user;
         listener=l;
@@ -129,7 +119,7 @@ public class FragmentEditUser extends DialogFragment {
                     getActivity().runOnUiThread(()->Toast.makeText(getContext(), "用户名已存在", Toast.LENGTH_SHORT).show());
                     return;
                 }
-                user=new User(username, pwd, home, label, true);
+                user=new SFTPUser(username, pwd, home, label, true);
                 dao.insert(user);
                 var list=dao.getAllSSHUsers();
                 getActivity().runOnUiThread(()->{

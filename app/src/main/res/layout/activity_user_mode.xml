@@ -13,7 +13,7 @@
         android:scrollbars="vertical"
         android:id="@+id/users_recyclerview"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/view_list_item"/>
+        tools:listitem="@layout/view_sftp_list_item"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"

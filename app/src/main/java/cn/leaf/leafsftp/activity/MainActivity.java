@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,8 +47,8 @@ import cn.leaf.leafsftp.sharedpreferences.Config;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-    ImageButton ftp_switch;
-    TextView address_text, port_text;
+    Switch sftp_switch, ftp_switch, nfs_switch, webdav_switch;
+    TextView sftp_address_text, ftp_address_text, nfs_address_text, webdav_address_text, port_text;
     View port_area, mode_area, keep_active_area, battery_area;
     CheckBox keep_active;
     Config config;
@@ -108,8 +109,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void bindView() {
-        ftp_switch = binding.ftpSwitch;
-        address_text = binding.address;
+//        ftp_switch = binding.ftpSwitch;
+//        address_text = binding.address;
+        sftp_switch=binding.sftpSwitch;
+        sftp_address_text=binding.sftpAddress;
         port_area = binding.portArea;
         mode_area = binding.modeArea;
         keep_active_area = binding.keepActiveArea;

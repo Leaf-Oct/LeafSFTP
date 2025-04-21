@@ -5,8 +5,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "ssh_users")
-public class User {
+@Entity(tableName = "sftp_users")
+public class SFTPUser {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "user")
@@ -20,7 +20,7 @@ public class User {
     @ColumnInfo(name = "enable")
     public boolean enable;
 
-    public User(String user, String password, String home, String label, boolean enable) {
+    public SFTPUser(String user, String password, String home, String label, boolean enable) {
         this.user = user;
         this.password = password;
         this.home = home;

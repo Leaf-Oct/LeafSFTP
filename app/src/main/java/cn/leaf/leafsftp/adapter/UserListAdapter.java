@@ -17,23 +17,22 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 import cn.leaf.leafsftp.R;
-import cn.leaf.leafsftp.database.UserDao;
 import cn.leaf.leafsftp.database.UserDatabaseSingleton;
 import cn.leaf.leafsftp.event.UpdateUserInfoEvent;
 import cn.leaf.leafsftp.listener.UserListUpdateListener;
-import cn.leaf.leafsftp.model.User;
+import cn.leaf.leafsftp.model.SFTPUser;
 
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHolder> implements UserListUpdateListener {
-    public List<User> list;
+    public List<SFTPUser> list;
     public Context context;
-    public UserListAdapter(Context context, List<User> list){
+    public UserListAdapter(Context context, List<SFTPUser> list){
         this.context=context;
         this.list=list;
     }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        var view= LayoutInflater.from(parent.getContext()).inflate(R.layout.view_list_item, parent, false);
+        var view= LayoutInflater.from(parent.getContext()).inflate(R.layout.view_sftp_list_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -49,7 +48,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     }
 
     @Override
-    public void update(List<User> list) {
+    public void update(List<SFTPUser> list) {
         this.list=list;
         notifyDataSetChanged();
     }
@@ -71,7 +70,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
             edit=itemView.findViewById(R.id.edit);
         }
 
-        public void bind(User user) {
+        public void bind(SFTPUser user) {
             label.setText(user.label);
             username.setText(user.user);
             password.setText(user.password);
