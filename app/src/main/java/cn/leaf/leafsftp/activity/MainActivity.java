@@ -20,15 +20,15 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.apache.sshd.common.util.security.SecurityUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -48,8 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     Switch sftp_switch, ftp_switch, nfs_switch, webdav_switch;
+    ImageView sftp_setting, ftp_setting, nfs_setting, webdav_setting;
     TextView sftp_address_text, ftp_address_text, nfs_address_text, webdav_address_text, port_text;
-    View port_area, mode_area, keep_active_area, battery_area;
+    View port_area, /*mode_area,*/ keep_active_area, battery_area;
     CheckBox keep_active;
     Config config;
     ArrayList<String> ips;
@@ -113,8 +114,23 @@ public class MainActivity extends AppCompatActivity {
 //        address_text = binding.address;
         sftp_switch=binding.sftpSwitch;
         sftp_address_text=binding.sftpAddress;
+        sftp_setting=binding.sftpSetting;
+
+//        功能没开发完成，先不启用
+//        ftp_switch=binding.ftpSwitch;
+//        ftp_address_text=binding.ftpAddress;
+//        ftp_setting=binding.ftpSetting;
+//
+//        nfs_switch=binding.nfsSwitch;
+//        nfs_address_text=binding.nfsAddress;
+//        nfs_setting=binding.nfsSetting;
+//
+//        webdav_switch=binding.webdavSwitch;
+//        webdav_address_text=binding.webdavAddress;
+//        webdav_setting=binding.webdavSetting;
+
         port_area = binding.portArea;
-        mode_area = binding.modeArea;
+//        mode_area = binding.modeArea;
         keep_active_area = binding.keepActiveArea;
         battery_area = binding.batteryArea;
         keep_active = binding.keepActive;
@@ -125,12 +141,15 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         port_text.setText(config.port + "");
         keep_active.setChecked(config.keep_alive);
-        address_text.setText("未启动");
+        sftp_address_text.setText("未启动");
         updateUI();
     }
 
     private void initAction() {
-        ftp_switch.setOnClickListener(v -> {
+        sftp_switch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
+        });
+        sftp_switch.setOnClickListener(v -> {
             if (!checkPermission()) {
                 Toast.makeText(MainActivity.this, "no permission", Toast.LENGTH_SHORT).show();
                 return;
@@ -143,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         });
         port_area.setOnClickListener(v -> {
             if (config.is_running) {
-                Log.w("thread", Thread.currentThread().toString());
+//                Log.w("thread", Thread.currentThread().toString());
                 Toast.makeText(MainActivity.this, "FTP服务运行中, 请先关闭再修改", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -203,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        mode_area.setOnClickListener(view -> {
+        sftp_setting.setOnClickListener(view -> {
             if (config.is_running) {
                 Toast.makeText(MainActivity.this, "FTP服务运行中, 请先关闭再修改", Toast.LENGTH_SHORT).show();
                 return;
@@ -211,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
             var i = new Intent(MainActivity.this, UserModeActivity.class);
             startActivity(i);
         });
-        address_text.setOnClickListener(view -> {
+        sftp_address_text.setOnClickListener(view -> {
             if (!config.is_running) {
                 return;
             }
@@ -241,16 +260,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateUI(){
         if (config.is_running) {
-            ftp_switch.setBackground(getResources().getDrawable(R.drawable.circle_on, null));
-            ftp_switch.setImageDrawable(getResources().getDrawable(R.drawable.power_on, null));
-            address_text.setClickable(true);
+//            ftp_switch.setBackground(getResources().getDrawable(R.drawable.circle_on, null));
+//            ftp_switch.setImageDrawable(getResources().getDrawable(R.drawable.power_on, null));
+            sftp_switch.setChecked(true);
+            sftp_address_text.setClickable(true);
             ips = NetworkUtil.getAllAddress();
-            address_text.setText("sftp://" + ips.get(0) + ":" + config.port);
+            sftp_address_text.setText("sftp://" + ips.get(0) + ":" + config.port);
         } else {
-            ftp_switch.setBackground(getResources().getDrawable(R.drawable.circle, null));
-            ftp_switch.setImageDrawable(getResources().getDrawable(R.drawable.power, null));
-            address_text.setClickable(false);
-            address_text.setText("未启动");
+//            ftp_switch.setBackground(getResources().getDrawable(R.drawable.circle, null));
+//            ftp_switch.setImageDrawable(getResources().getDrawable(R.drawable.power, null));
+            sftp_switch.setChecked(false);
+            sftp_address_text.setClickable(false);
+            sftp_address_text.setText("未启动");
         }
     }
 

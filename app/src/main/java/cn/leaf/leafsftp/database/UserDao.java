@@ -9,6 +9,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import cn.leaf.leafsftp.model.Port;
 import cn.leaf.leafsftp.model.SFTPUser;
 
 @Dao
@@ -34,5 +35,9 @@ public interface UserDao {
     @Query("SELECT * FROM sftp_users")
     List<SFTPUser> getAllSFTPUsers();
 
+    @Query("SELECT * FROM ports WHERE id=1")
+    Port getAllPorts();
 
+    @Update
+    void updatePortConfig(Port p);
 }
