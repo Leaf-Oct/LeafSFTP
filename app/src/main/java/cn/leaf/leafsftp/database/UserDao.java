@@ -40,4 +40,16 @@ public interface UserDao {
 
     @Update
     void updatePortConfig(Port p);
+
+    @Query("SELECT sftp FROM ports WHERE id=1")
+    int getSFTPPort();
+
+    @Query("SELECT ftp FROM ports WHERE id=1")
+    int getFTPPort();
+
+    @Query("SELECT nfs FROM ports WHERE id=1")
+    int getNFSPort();
+
+    @Query("SELECT webdav FROM ports WHERE id=1")
+    int getWebDavPort();
 }

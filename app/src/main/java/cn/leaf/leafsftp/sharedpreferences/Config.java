@@ -19,7 +19,7 @@ import cn.leaf.leafsftp.LeafApplication;
 public class Config {
     private static Config c;
     public String SD_card_path="";
-    public int port=2222;
+//    public int port=2222;
     public boolean keep_alive=false;
     public boolean is_running=false;
     public boolean has_SD_card=false;
@@ -47,7 +47,7 @@ public class Config {
                 json_obj=new JSONObject();
             }
             json_obj.put("SD_card_path", SD_card_path);
-            json_obj.put("port", port);
+//            json_obj.put("port", port);
             json_obj.put("keep_alive", keep_alive);
 //            json_obj.put("ssl_enable", ssl_enable);
             json_obj.put("has_SD_card", has_SD_card);
@@ -81,7 +81,7 @@ public class Config {
         try {
             json_obj=new JSONObject(IOUtils.toString(new FileReader(json)));
             SD_card_path=json_obj.getString("SD_card_path");
-            port=json_obj.getInt("port");
+//            port=json_obj.getInt("port");
             keep_alive=json_obj.getBoolean("keep_alive");
 //            ssl_enable=json_obj.getBoolean("ssl_enable");
             has_SD_card=json_obj.getBoolean("has_SD_card");

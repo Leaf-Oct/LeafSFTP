@@ -57,7 +57,7 @@ public class SFTPServerService extends IntentService {
     public void onCreate() {
         super.onCreate();
         manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        dao=UserDatabaseSingleton.getInstance(this).getSSH_UserDao();
+        dao=UserDatabaseSingleton.getInstance(this).getUserDao();
     }
 
     @Override

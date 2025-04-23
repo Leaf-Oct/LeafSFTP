@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     Switch sftp_switch, ftp_switch, nfs_switch, webdav_switch;
     ImageView sftp_setting, ftp_setting, nfs_setting, webdav_setting;
-    TextView sftp_address_text, ftp_address_text, nfs_address_text, webdav_address_text, port_text;
+    TextView sftp_address_text, ftp_address_text, nfs_address_text, webdav_address_text;//, port_text;
     View port_area, /*mode_area,*/ keep_active_area, battery_area;
     CheckBox keep_active;
     Config config;
@@ -134,38 +134,49 @@ public class MainActivity extends AppCompatActivity {
         keep_active_area = binding.keepActiveArea;
         battery_area = binding.batteryArea;
         keep_active = binding.keepActive;
-        port_text = binding.port;
+//        port_text = binding.port;
         info_btn=binding.info;
     }
 
     private void initView() {
-        port_text.setText(config.port + "");
+//        port_text.setText(config.port + "");
         keep_active.setChecked(config.keep_alive);
-        sftp_address_text.setText("未启动");
+//        sftp_address_text.setText("未启动");
         updateUI();
     }
 
     private void initAction() {
         sftp_switch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-
-        });
-        sftp_switch.setOnClickListener(v -> {
             if (!checkPermission()) {
                 Toast.makeText(MainActivity.this, "no permission", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!config.is_running) {
+            if (isChecked) {
+                Toast.makeText(MainActivity.this, "server start", Toast.LENGTH_SHORT).show();
                 startService(new Intent(MainActivity.this, SFTPServerService.class));
             } else {
+                Toast.makeText(MainActivity.this, "server stop", Toast.LENGTH_SHORT).show();
                 stopService(new Intent(MainActivity.this, SFTPServerService.class));
             }
+            config.is_running=isChecked;
         });
+//        sftp_switch.setOnClickListener(v -> {
+//            if (!checkPermission()) {
+//                Toast.makeText(MainActivity.this, "no permission", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (!config.is_running) {
+//                startService(new Intent(MainActivity.this, SFTPServerService.class));
+//            } else {
+//                stopService(new Intent(MainActivity.this, SFTPServerService.class));
+//            }
+//        });
         port_area.setOnClickListener(v -> {
-            if (config.is_running) {
-//                Log.w("thread", Thread.currentThread().toString());
-                Toast.makeText(MainActivity.this, "FTP服务运行中, 请先关闭再修改", Toast.LENGTH_SHORT).show();
-                return;
-            }
+//            if (config.is_running) {
+//                //Log.w("thread", Thread.currentThread().toString());
+//                Toast.makeText(MainActivity.this, "SFTP服务运行中, 请先关闭再修改", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
             EditText input_port = new EditText(MainActivity.this);
             input_port.setHint("port");
             input_port.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -223,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         sftp_setting.setOnClickListener(view -> {
-            if (config.is_running) {
+            if (sftp_switch.isChecked()) {
                 Toast.makeText(MainActivity.this, "FTP服务运行中, 请先关闭再修改", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -231,12 +242,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         });
         sftp_address_text.setOnClickListener(view -> {
-            if (!config.is_running) {
+            if (!sftp_switch.isChecked()) {
                 return;
             }
             StringBuffer sb = new StringBuffer();
             for (var ip : ips) {
-                sb.append("sftp://" + ip + ":" + config.port + "\n");
+                sb.append("sftp://" + ip + ":" + ??? + "\n");
             }
             var dialog = new AlertDialog.Builder(MainActivity.this).setTitle("可用地址").setMessage(sb.toString()).setPositiveButton("ok", null).create();
             dialog.show();
