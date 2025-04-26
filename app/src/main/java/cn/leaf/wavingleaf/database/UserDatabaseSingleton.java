@@ -2,7 +2,8 @@ package cn.leaf.leafsftp.database;
 
 import android.content.Context;
 
-import androidx.room.Room;
+//import androidx.room.Room;
+
 
 public class UserDatabaseSingleton {
     private static volatile UserDatabaseSingleton instance;

@@ -4,6 +4,7 @@ plugins {
 
 android {
     compileSdk 34
+    namespace "cn.leaf.wavingleaf"
 
     defaultConfig {
         applicationId "cn.leaf.wavingleaf"
@@ -55,15 +56,19 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.ftpserver/ftpserver-core
     implementation 'org.apache.ftpserver:ftpserver-core:1.2.0'
 
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.8.0'
+//    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+//    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.12.0'
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'org.greenrobot:eventbus:3.3.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    def room_version = "2.5.2"
+//    def room_version = "2.5.2"
+    def room_version = "2.7.0"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
-    def work_version = "2.9.1"
+//    def work_version = "2.9.1"
+    def work_version = "2.10.0"
     // (Java only)
     implementation "androidx.work:work-runtime:$work_version"
 
