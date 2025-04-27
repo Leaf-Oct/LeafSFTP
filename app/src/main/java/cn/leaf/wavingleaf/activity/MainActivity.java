@@ -1,4 +1,4 @@
-package cn.leaf.leafsftp.activity;
+package cn.leaf.wavingleaf.activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,13 +36,13 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.security.Security;
 import java.util.ArrayList;
 
-import cn.leaf.leafsftp.NetworkUtil;
-import cn.leaf.leafsftp.R;
-import cn.leaf.leafsftp.databinding.ActivityMainBinding;
-import cn.leaf.leafsftp.event.SFTPStatusSwitchEvent;
-import cn.leaf.leafsftp.fragment.FragmentInfo;
-import cn.leaf.leafsftp.service.SFTPServerService;
-import cn.leaf.leafsftp.sharedpreferences.Config;
+import cn.leaf.wavingleaf.NetworkUtil;
+import cn.leaf.wavingleaf.R;
+import cn.leaf.wavingleaf.databinding.ActivityMainBinding;
+import cn.leaf.wavingleaf.event.SFTPStatusSwitchEvent;
+import cn.leaf.wavingleaf.fragment.FragmentInfo;
+import cn.leaf.wavingleaf.service.SFTPServerService;
+import cn.leaf.wavingleaf.sharedpreferences.Config;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -153,10 +153,12 @@ public class MainActivity extends AppCompatActivity {
             }
             if (isChecked) {
                 Toast.makeText(MainActivity.this, "server start", Toast.LENGTH_SHORT).show();
-                startService(new Intent(MainActivity.this, SFTPServerService.class));
+//                startService(new Intent(MainActivity.this, SFTPServerService.class));
+
             } else {
                 Toast.makeText(MainActivity.this, "server stop", Toast.LENGTH_SHORT).show();
-                stopService(new Intent(MainActivity.this, SFTPServerService.class));
+//                stopService(new Intent(MainActivity.this, SFTPServerService.class));
+
             }
             config.is_running=isChecked;
         });
@@ -315,7 +317,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             ips = NetworkUtil.getAllAddress();
-            address_text.setText("sftp://" + ips.get(0) + ":" + config.port);
+//            address_text.setText("sftp://" + ips.get(0) + ":" + config.port);
+            //TODO 更改UI
         }
     }
 }

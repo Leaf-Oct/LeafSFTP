@@ -1,4 +1,4 @@
-package cn.leaf.leafsftp.model;
+package cn.leaf.wavingleaf.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

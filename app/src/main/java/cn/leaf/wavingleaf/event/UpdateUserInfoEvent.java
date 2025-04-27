@@ -1,7 +1,7 @@
-package cn.leaf.leafsftp.event;
+package cn.leaf.wavingleaf.event;
 
 
-import cn.leaf.leafsftp.model.SFTPUser;
+import cn.leaf.wavingleaf.model.SFTPUser;
 
 public class UpdateUserInfoEvent {
     public SFTPUser u;

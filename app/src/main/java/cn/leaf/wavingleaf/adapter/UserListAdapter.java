@@ -1,4 +1,4 @@
-package cn.leaf.leafsftp.adapter;
+package cn.leaf.wavingleaf.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,11 +16,11 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
-import cn.leaf.leafsftp.R;
-import cn.leaf.leafsftp.database.UserDatabaseSingleton;
-import cn.leaf.leafsftp.event.UpdateUserInfoEvent;
-import cn.leaf.leafsftp.listener.UserListUpdateListener;
-import cn.leaf.leafsftp.model.SFTPUser;
+import cn.leaf.wavingleaf.R;
+import cn.leaf.wavingleaf.database.UserDatabaseSingleton;
+import cn.leaf.wavingleaf.event.UpdateUserInfoEvent;
+import cn.leaf.wavingleaf.listener.UserListUpdateListener;
+import cn.leaf.wavingleaf.model.SFTPUser;
 
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHolder> implements UserListUpdateListener {
     public List<SFTPUser> list;

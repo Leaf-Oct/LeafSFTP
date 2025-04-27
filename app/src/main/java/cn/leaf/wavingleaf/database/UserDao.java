@@ -1,4 +1,4 @@
-package cn.leaf.leafsftp.database;
+package cn.leaf.wavingleaf.database;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -9,8 +9,8 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import cn.leaf.leafsftp.model.Port;
-import cn.leaf.leafsftp.model.SFTPUser;
+import cn.leaf.wavingleaf.model.Port;
+import cn.leaf.wavingleaf.model.SFTPUser;
 
 @Dao
 public interface UserDao {

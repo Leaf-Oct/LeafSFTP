@@ -1,8 +1,9 @@
-package cn.leaf.leafsftp;
+package cn.leaf.wavingleaf;
 
 import android.app.Application;
 import android.content.Context;
 
+//完成初始化工作
 public class LeafApplication extends Application {
     private static Context c;
 

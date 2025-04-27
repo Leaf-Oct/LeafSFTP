@@ -1,4 +1,4 @@
-package cn.leaf.leafsftp.fragment;
+package cn.leaf.wavingleaf.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -21,12 +21,12 @@ import android.widget.Toast;
 
 import java.io.File;
 
-import cn.leaf.leafsftp.database.UserDao;
-import cn.leaf.leafsftp.database.UserDatabaseSingleton;
-import cn.leaf.leafsftp.databinding.FragmentEditUserBinding;
-import cn.leaf.leafsftp.listener.UserListUpdateListener;
-import cn.leaf.leafsftp.model.SFTPUser;
-import cn.leaf.leafsftp.sharedpreferences.Config;
+import cn.leaf.wavingleaf.database.UserDao;
+import cn.leaf.wavingleaf.database.UserDatabaseSingleton;
+import cn.leaf.wavingleaf.databinding.FragmentEditUserBinding;
+import cn.leaf.wavingleaf.listener.UserListUpdateListener;
+import cn.leaf.wavingleaf.model.SFTPUser;
+import cn.leaf.wavingleaf.sharedpreferences.Config;
 
 public class FragmentEditUser extends DialogFragment {
 

@@ -1,4 +1,4 @@
-package cn.leaf.leafsftp.activity;
+package cn.leaf.wavingleaf.activity;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -27,12 +27,12 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 
-import cn.leaf.leafsftp.adapter.UserListAdapter;
-import cn.leaf.leafsftp.database.UserDatabaseSingleton;
-import cn.leaf.leafsftp.databinding.ActivityUserModeBinding;
-import cn.leaf.leafsftp.event.UpdateUserInfoEvent;
-import cn.leaf.leafsftp.fragment.FragmentEditUser;
-import cn.leaf.leafsftp.sharedpreferences.Config;
+import cn.leaf.wavingleaf.adapter.UserListAdapter;
+import cn.leaf.wavingleaf.database.UserDatabaseSingleton;
+import cn.leaf.wavingleaf.databinding.ActivityUserModeBinding;
+import cn.leaf.wavingleaf.event.UpdateUserInfoEvent;
+import cn.leaf.wavingleaf.fragment.FragmentEditUser;
+import cn.leaf.wavingleaf.sharedpreferences.Config;
 
 public class UserModeActivity extends AppCompatActivity {
     ActivityUserModeBinding binding;

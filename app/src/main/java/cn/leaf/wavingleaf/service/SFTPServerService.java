@@ -1,4 +1,4 @@
-package cn.leaf.leafsftp.service;
+package cn.leaf.wavingleaf.service;
 
 import android.app.IntentService;
 import android.app.Notification;
@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
-import android.util.Log;
 
 import org.apache.sshd.common.file.FileSystemFactory;
 import org.apache.sshd.common.file.virtualfs.VirtualFileSystemFactory;
@@ -37,11 +36,11 @@ import java.util.Calendar;
 import java.util.List;
 
 
-import cn.leaf.leafsftp.R;
-import cn.leaf.leafsftp.database.UserDao;
-import cn.leaf.leafsftp.database.UserDatabaseSingleton;
-import cn.leaf.leafsftp.event.SFTPStatusSwitchEvent;
-import cn.leaf.leafsftp.sharedpreferences.Config;
+import cn.leaf.wavingleaf.R;
+import cn.leaf.wavingleaf.database.UserDao;
+import cn.leaf.wavingleaf.database.UserDatabaseSingleton;
+import cn.leaf.wavingleaf.event.SFTPStatusSwitchEvent;
+import cn.leaf.wavingleaf.sharedpreferences.Config;
 
 public class SFTPServerService extends IntentService {
     SshServer sshd;

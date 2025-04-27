@@ -1,4 +1,4 @@
-package cn.leaf.leafsftp.sharedpreferences;
+package cn.leaf.wavingleaf.sharedpreferences;
 
 import android.os.Environment;
 import android.util.Log;
@@ -14,7 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Locale;
 
-import cn.leaf.leafsftp.LeafApplication;
+import cn.leaf.wavingleaf.LeafApplication;
 
 public class Config {
     private static Config c;

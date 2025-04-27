@@ -1,4 +1,4 @@
-package cn.leaf.leafsftp.fragment;
+package cn.leaf.wavingleaf.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,8 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cn.leaf.leafsftp.R;
-import cn.leaf.leafsftp.databinding.FragmentInfoBinding;
+import cn.leaf.wavingleaf.R;
+import cn.leaf.wavingleaf.databinding.FragmentInfoBinding;
 
 
 public class FragmentInfo extends DialogFragment {
