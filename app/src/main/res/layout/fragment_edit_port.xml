@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    tools:context=".fragment.FragmentEditPort"
     android:padding="16dp">
 
     <TextView
@@ -23,12 +24,14 @@
             android:layout_weight="0.8"
             android:inputType="number"
             android:maxLines="1"
+            android:id="@+id/sftp_port"
             android:hint="SFTP端口号"/>
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.2"
+            android:id="@+id/sftp_default"
             android:text="默认"
             android:layout_marginStart="8dp"/>
     </LinearLayout>
@@ -48,6 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.8"
             android:inputType="number"
+            android:id="@+id/ftp_port"
             android:maxLines="1"
             android:hint="FTP端口号"/>
 
@@ -55,6 +59,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.2"
+            android:id="@+id/ftp_default"
             android:text="默认"
             android:layout_marginStart="8dp"/>
     </LinearLayout>
@@ -74,6 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.8"
             android:inputType="number"
+            android:id="@+id/nfs_port"
             android:maxLines="1"
             android:hint="这玩意儿能改吗"/>
 
@@ -81,6 +87,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.2"
+            android:id="@+id/nfs_default"
             android:text="默认"
             android:layout_marginStart="8dp"/>
     </LinearLayout>
@@ -100,6 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.8"
             android:inputType="number"
+            android:id="@+id/webdav_port"
             android:maxLines="1"
             android:hint="WebDav端口号"/>
 
@@ -107,6 +115,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.2"
+            android:id="@+id/webdav_default"
             android:text="默认"
             android:layout_marginStart="8dp"/>
     </LinearLayout>
@@ -121,6 +130,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:id="@+id/edit_port_confirm"
             android:text="确定"
             android:layout_marginEnd="4dp"/>
 
@@ -128,6 +138,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:id="@+id/edit_port_cancel"
             android:text="取消"
             android:layout_marginStart="4dp"/>
     </LinearLayout>

@@ -40,6 +40,7 @@ import cn.leaf.wavingleaf.NetworkUtil;
 import cn.leaf.wavingleaf.R;
 import cn.leaf.wavingleaf.databinding.ActivityMainBinding;
 import cn.leaf.wavingleaf.event.SFTPStatusSwitchEvent;
+import cn.leaf.wavingleaf.fragment.FragmentEditPort;
 import cn.leaf.wavingleaf.fragment.FragmentInfo;
 import cn.leaf.wavingleaf.service.SFTPServerService;
 import cn.leaf.wavingleaf.sharedpreferences.Config;
@@ -174,38 +175,40 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
         port_area.setOnClickListener(v -> {
+            var edit_port_fragment=new FragmentEditPort();
+            edit_port_fragment.show(getSupportFragmentManager(), "Ports");
 //            if (config.is_running) {
 //                //Log.w("thread", Thread.currentThread().toString());
 //                Toast.makeText(MainActivity.this, "SFTP服务运行中, 请先关闭再修改", Toast.LENGTH_SHORT).show();
 //                return;
 //            }
-            EditText input_port = new EditText(MainActivity.this);
-            input_port.setHint("port");
-            input_port.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            AlertDialog input_port_dialog = new AlertDialog.Builder(MainActivity.this)
-                    .setTitle("设置端口")
-                    .setView(input_port)
-                    .setCancelable(false)
-                    .setPositiveButton("确定", (dialogInterface, i) -> {
-                        var port = input_port.getText().toString();
-                        try {
-                            int port_int = Integer.parseInt(port);
-                            if (port_int < 1025 || port_int > 65535) {
-                                Toast.makeText(MainActivity.this, "端口范围1025~65535", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            config.port = port_int;
-                            port_text.setText(port);
-                        } catch (NumberFormatException e) {
-                            Toast.makeText(MainActivity.this, "非法端口, 请输入数字", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        config.saveConfig();
-                    }).create();
-            input_port_dialog.setOnShowListener(dialogInterface -> {
-                input_port.setText(config.port + "");
-            });
-            input_port_dialog.show();
+//            EditText input_port = new EditText(MainActivity.this);
+//            input_port.setHint("port");
+//            input_port.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+//            AlertDialog input_port_dialog = new AlertDialog.Builder(MainActivity.this)
+//                    .setTitle("设置端口")
+//                    .setView(input_port)
+//                    .setCancelable(false)
+//                    .setPositiveButton("确定", (dialogInterface, i) -> {
+//                        var port = input_port.getText().toString();
+//                        try {
+//                            int port_int = Integer.parseInt(port);
+//                            if (port_int < 1025 || port_int > 65535) {
+//                                Toast.makeText(MainActivity.this, "端口范围1025~65535", Toast.LENGTH_SHORT).show();
+//                                return;
+//                            }
+//                            config.port = port_int;
+//                            port_text.setText(port);
+//                        } catch (NumberFormatException e) {
+//                            Toast.makeText(MainActivity.this, "非法端口, 请输入数字", Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
+//                        config.saveConfig();
+//                    }).create();
+//            input_port_dialog.setOnShowListener(dialogInterface -> {
+////                input_port.setText(config.port + "");
+//            });
+//            input_port_dialog.show();
         });
         keep_active_area.setOnClickListener(view -> {
             if (config.keep_alive) {

@@ -10,6 +10,7 @@ public class SFTPWork extends Worker {
 
     public SFTPWork(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
+
     }
 
     @NonNull
@@ -22,4 +23,6 @@ public class SFTPWork extends Worker {
     public void onStopped() {
         super.onStopped();
     }
+
+    setFo
 }

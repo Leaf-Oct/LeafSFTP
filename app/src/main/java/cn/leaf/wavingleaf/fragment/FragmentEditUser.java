@@ -42,7 +42,7 @@ public class FragmentEditUser extends DialogFragment {
 
     Config config=Config.getInstance();
 
-    UserDao dao=UserDatabaseSingleton.getInstance(getContext()).getSSH_UserDao();
+    UserDao dao=UserDatabaseSingleton.getInstance(getContext()).getUserDao();
 
     public FragmentEditUser(boolean is_new, SFTPUser user, UserListUpdateListener l) {
         this.is_new = is_new;
