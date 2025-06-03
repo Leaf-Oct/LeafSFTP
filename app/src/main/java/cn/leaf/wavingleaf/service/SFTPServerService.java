@@ -62,61 +62,61 @@ public class SFTPServerService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 //        有问题，关于keystore的，待解决
-        System.setProperty("user.home", Environment.getExternalStorageDirectory().getAbsolutePath());
-        sshd = SshServer.setUpDefaultServer();
-        sshd.setPort(config.port);
-        sshd.setHost("0.0.0.0");
-//        sshd.setKeyPairProvider(new CustomKeyPairProvider(this));
-        sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(Paths.get(new File(getExternalFilesDir(null), "key").toURI())));
-
-        sshd.setSignatureFactories(new ArrayList<>(BuiltinSignatures.VALUES));
-
-        sshd.setPasswordAuthenticator((username, password, session) -> {
-            var pwd=dao.getPwdFromUser(username);
-            if (pwd==null){
-//                Log.i("user", "no exist");
-                return false;
-            }
-            var enable=dao.getEnableStatusFromUser(username);
-//            Log.i("username", username);
-//            Log.i("password", password);
-//            Log.i("pwd in db", pwd);
-//            Log.i("enable", enable+"");
-//            Log.i("result", Boolean.toString(password.equals(pwd)&&enable));
-            return password.equals(pwd)&&enable;
-
-        });
-        sshd.setFileSystemFactory(new FileSystemFactory() {
-            @Override
-            public Path getUserHomeDir(SessionContext session) throws IOException {
-                var user = session.getUsername();
-                var home=dao.getHomeFromUser(user);
-                return home==null?null:Paths.get(home);
-            }
-
-            @Override
-            public FileSystem createFileSystem(SessionContext session) throws IOException {
-                var user = session.getUsername();
-                var home=dao.getHomeFromUser(user);
-                return home==null?null:new VirtualFileSystemFactory(Paths.get(home)).createFileSystem(session);
-            }
-        });
-        sshd.setSubsystemFactories(Arrays.asList(new SftpSubsystemFactory()));
-
-        Notification n = createForegroundNotification();
-        startForeground(1, n);
-        EventBus.getDefault().post(new SFTPStatusSwitchEvent());
-        try {
-            synchronized (config) {
-                config.is_running = true;
-            }
-            synchronized (this) {
-                sshd.start();
-                wait();
-            }
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+//        System.setProperty("user.home", Environment.getExternalStorageDirectory().getAbsolutePath());
+//        sshd = SshServer.setUpDefaultServer();
+//        sshd.setPort(config.port);
+//        sshd.setHost("0.0.0.0");
+////        sshd.setKeyPairProvider(new CustomKeyPairProvider(this));
+//        sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(Paths.get(new File(getExternalFilesDir(null), "key").toURI())));
+//
+//        sshd.setSignatureFactories(new ArrayList<>(BuiltinSignatures.VALUES));
+//
+//        sshd.setPasswordAuthenticator((username, password, session) -> {
+//            var pwd=dao.getPwdFromUser(username);
+//            if (pwd==null){
+////                Log.i("user", "no exist");
+//                return false;
+//            }
+//            var enable=dao.getEnableStatusFromUser(username);
+////            Log.i("username", username);
+////            Log.i("password", password);
+////            Log.i("pwd in db", pwd);
+////            Log.i("enable", enable+"");
+////            Log.i("result", Boolean.toString(password.equals(pwd)&&enable));
+//            return password.equals(pwd)&&enable;
+//
+//        });
+//        sshd.setFileSystemFactory(new FileSystemFactory() {
+//            @Override
+//            public Path getUserHomeDir(SessionContext session) throws IOException {
+//                var user = session.getUsername();
+//                var home=dao.getHomeFromUser(user);
+//                return home==null?null:Paths.get(home);
+//            }
+//
+//            @Override
+//            public FileSystem createFileSystem(SessionContext session) throws IOException {
+//                var user = session.getUsername();
+//                var home=dao.getHomeFromUser(user);
+//                return home==null?null:new VirtualFileSystemFactory(Paths.get(home)).createFileSystem(session);
+//            }
+//        });
+//        sshd.setSubsystemFactories(Arrays.asList(new SftpSubsystemFactory()));
+//
+//        Notification n = createForegroundNotification();
+//        startForeground(1, n);
+//        EventBus.getDefault().post(new SFTPStatusSwitchEvent());
+//        try {
+//            synchronized (config) {
+//                config.is_running = true;
+//            }
+//            synchronized (this) {
+//                sshd.start();
+//                wait();
+//            }
+//        } catch (IOException | InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     @Override

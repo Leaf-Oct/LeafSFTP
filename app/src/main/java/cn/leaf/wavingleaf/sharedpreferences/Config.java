@@ -35,7 +35,6 @@ public class Config {
         var initial_result=loadConfig();
         if(!initial_result){
             Toast.makeText(LeafApplication.getContext(), "初始化配置信息失败", Toast.LENGTH_LONG).show();
-//            generateJks();
             detectMedia();
             saveConfig();
         }
@@ -47,9 +46,7 @@ public class Config {
                 json_obj=new JSONObject();
             }
             json_obj.put("SD_card_path", SD_card_path);
-//            json_obj.put("port", port);
             json_obj.put("keep_alive", keep_alive);
-//            json_obj.put("ssl_enable", ssl_enable);
             json_obj.put("has_SD_card", has_SD_card);
         } catch (JSONException e) {
             e.printStackTrace();

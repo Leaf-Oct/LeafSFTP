@@ -38,6 +38,8 @@ import java.util.ArrayList;
 
 import cn.leaf.wavingleaf.NetworkUtil;
 import cn.leaf.wavingleaf.R;
+import cn.leaf.wavingleaf.database.UserDao;
+import cn.leaf.wavingleaf.database.UserDatabaseSingleton;
 import cn.leaf.wavingleaf.databinding.ActivityMainBinding;
 import cn.leaf.wavingleaf.event.SFTPStatusSwitchEvent;
 import cn.leaf.wavingleaf.fragment.FragmentEditPort;
@@ -61,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
     IntentFilter filter=new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
     BroadcastReceiver net_change_receiver=new NetChangeReceiver();
 
+    UserDao dao= UserDatabaseSingleton.getInstance(this).getUserDao();
+    int sftp_runtime_port=0, ftp_runtime_port=0, nfs_runtime_port=0, webdav_runtime_port=0
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -82,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         initData();
         bindView();
-//        initView();
+//        initView();   在onResume时执行
         initAction();
     }
 
@@ -155,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
             if (isChecked) {
                 Toast.makeText(MainActivity.this, "server start", Toast.LENGTH_SHORT).show();
 //                startService(new Intent(MainActivity.this, SFTPServerService.class));
+                sftp_runtime_port=dao.getSFTPPort();
 
             } else {
                 Toast.makeText(MainActivity.this, "server stop", Toast.LENGTH_SHORT).show();
@@ -243,16 +249,16 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "FTP服务运行中, 请先关闭再修改", Toast.LENGTH_SHORT).show();
                 return;
             }
-            var i = new Intent(MainActivity.this, UserModeActivity.class);
+            var i = new Intent(MainActivity.this, SshUserModeActivity.class);
             startActivity(i);
         });
         sftp_address_text.setOnClickListener(view -> {
-            if (!sftp_switch.isChecked()) {
+            if (!config.is_running) {
                 return;
             }
             StringBuffer sb = new StringBuffer();
             for (var ip : ips) {
-                sb.append("sftp://" + ip + ":" + ??? + "\n");
+                sb.append("sftp://" + ip + ":" + sftp_runtime_port + "\n");
             }
             var dialog = new AlertDialog.Builder(MainActivity.this).setTitle("可用地址").setMessage(sb.toString()).setPositiveButton("ok", null).create();
             dialog.show();
@@ -261,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
             wake_lock.acquire();
             Log.i("wake lock", "acquire");
         }
-        info_btn.setOnClickListener(v->new FragmentInfo().show(getSupportFragmentManager(), "Leaf SFTP Server"));
+        info_btn.setOnClickListener(v->new FragmentInfo().show(getSupportFragmentManager(), "Waving Leaf"));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -281,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
             sftp_switch.setChecked(true);
             sftp_address_text.setClickable(true);
             ips = NetworkUtil.getAllAddress();
-            sftp_address_text.setText("sftp://" + ips.get(0) + ":" + config.port);
+            sftp_address_text.setText("sftp://" + ips.get(0) + ":" + sftp_runtime_port);
         } else {
 //            ftp_switch.setBackground(getResources().getDrawable(R.drawable.circle, null));
 //            ftp_switch.setImageDrawable(getResources().getDrawable(R.drawable.power, null));

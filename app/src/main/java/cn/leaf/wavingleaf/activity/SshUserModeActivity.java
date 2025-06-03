@@ -4,20 +4,13 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.DocumentsContract;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -25,17 +18,15 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
-
 import cn.leaf.wavingleaf.adapter.UserListAdapter;
 import cn.leaf.wavingleaf.database.UserDatabaseSingleton;
+import cn.leaf.wavingleaf.databinding.ActivitySshUserModeBinding;
 import cn.leaf.wavingleaf.databinding.ActivityUserModeBinding;
 import cn.leaf.wavingleaf.event.UpdateUserInfoEvent;
 import cn.leaf.wavingleaf.fragment.FragmentEditUser;
-import cn.leaf.wavingleaf.sharedpreferences.Config;
 
-public class UserModeActivity extends AppCompatActivity {
-    ActivityUserModeBinding binding;
+public class SshUserModeActivity extends AppCompatActivity {
+    ActivitySshUserModeBinding binding;
     RecyclerView user_list;
     FloatingActionButton add_user;
     UserDatabaseSingleton db;
@@ -77,7 +68,7 @@ public class UserModeActivity extends AppCompatActivity {
     }
 
     private void bindView() {
-        binding = ActivityUserModeBinding.inflate(getLayoutInflater());
+        binding = ActivitySshUserModeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         user_list=binding.usersRecyclerview;
         add_user=binding.btnAdd;
@@ -86,7 +77,7 @@ public class UserModeActivity extends AppCompatActivity {
     private void initData(){
         db=UserDatabaseSingleton.getInstance(this);
         new Thread(() -> {
-            adapter=new UserListAdapter(UserModeActivity.this, db.getSSH_UserDao().getAllSSHUsers());
+            adapter=new UserListAdapter(SshUserModeActivity.this, db.getUserDao().getAllSFTPUsers());
             handler.post(() -> user_list.setAdapter(adapter));
 
         }).start();

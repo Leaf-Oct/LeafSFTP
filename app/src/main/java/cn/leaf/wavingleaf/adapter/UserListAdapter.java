@@ -79,7 +79,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
             enable.setOnCheckedChangeListener((compoundButton, b) -> {
                 user.enable=b;
                 new Thread(()->{
-                    UserDatabaseSingleton.getInstance(null).getSSH_UserDao().update(user);
+                    UserDatabaseSingleton.getInstance(null).getUserDao().updateSFTPUser(user);
                 }).start();
 
             });
