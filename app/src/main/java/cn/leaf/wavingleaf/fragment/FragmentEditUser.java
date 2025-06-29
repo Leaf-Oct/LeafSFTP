@@ -114,14 +114,14 @@ public class FragmentEditUser extends DialogFragment {
         }
         if(is_new){
             new Thread(()->{
-                var save_pwd=dao.getPwdFromUser(username);
+                var save_pwd=dao.getPwdFromSFTPUser(username);
                 if (save_pwd!=null){
                     getActivity().runOnUiThread(()->Toast.makeText(getContext(), "用户名已存在", Toast.LENGTH_SHORT).show());
                     return;
                 }
                 user=new SFTPUser(username, pwd, home, label, true);
-                dao.insert(user);
-                var list=dao.getAllSSHUsers();
+                dao.insertSFTPUser(user);
+                var list=dao.getAllSFTPUsers();
                 getActivity().runOnUiThread(()->{
                     listener.update(list);
                     dismiss();
@@ -133,8 +133,8 @@ public class FragmentEditUser extends DialogFragment {
             user.password=pwd;
             user.home=home;
             new Thread(() -> {
-                dao.update(user);
-                var list=dao.getAllSSHUsers();
+                dao.updateSFTPUser(user);
+                var list=dao.getAllSFTPUsers();
                 getActivity().runOnUiThread(()->listener.update(list));
             }).start();
             dismiss();
@@ -143,8 +143,8 @@ public class FragmentEditUser extends DialogFragment {
     }
     private void delete(){
         new Thread(()->{
-            dao.delete(user);
-            var list=dao.getAllSSHUsers();
+            dao.deleteSFTPUser(user);
+            var list=dao.getAllSFTPUsers();
             getActivity().runOnUiThread(()->listener.update(list));
         }).start();
     }
@@ -154,7 +154,7 @@ public class FragmentEditUser extends DialogFragment {
         super.onDestroy();
     }
 
-    ActivityResultLauncher custom_launcher= registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+    ActivityResultLauncher<Intent> custom_launcher= registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         var i=result.getData();
 //        未选择
         if(i==null){

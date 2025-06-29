@@ -21,7 +21,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import cn.leaf.wavingleaf.adapter.UserListAdapter;
 import cn.leaf.wavingleaf.database.UserDatabaseSingleton;
 import cn.leaf.wavingleaf.databinding.ActivitySshUserModeBinding;
-import cn.leaf.wavingleaf.databinding.ActivityUserModeBinding;
 import cn.leaf.wavingleaf.event.UpdateUserInfoEvent;
 import cn.leaf.wavingleaf.fragment.FragmentEditUser;
 
@@ -34,8 +33,8 @@ public class SshUserModeActivity extends AppCompatActivity {
     final Handler handler=new Handler();
 
 
-//    永久获取data分区的访问权限
-    ActivityResultLauncher launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+//    永久获取data分区的访问权限。暂时保留，未使用
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
             if (result.getResultCode() == RESULT_OK) {
@@ -51,7 +50,6 @@ public class SshUserModeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         bindView();
         initData();
-//        initView();
         initAction();
     }
 
@@ -79,12 +77,7 @@ public class SshUserModeActivity extends AppCompatActivity {
         new Thread(() -> {
             adapter=new UserListAdapter(SshUserModeActivity.this, db.getUserDao().getAllSFTPUsers());
             handler.post(() -> user_list.setAdapter(adapter));
-
         }).start();
-
-    }
-
-    private void initView() {
 
     }
 
@@ -93,26 +86,7 @@ public class SshUserModeActivity extends AppCompatActivity {
             var edit_fragment=new FragmentEditUser(true, null, adapter);
             edit_fragment.show(getSupportFragmentManager(), "dialog");
         });
-//        auto_detect.setOnClickListener(view -> {
-//            config.detectMedia();
-//            StringBuffer sb = new StringBuffer();
-//            sb.append(config.inner_storage_path + '\n');
-//            if (config.has_SD_card) {
-//                sb.append(config.SD_card_path);
-//            }
-//            var uri = Uri.parse("content://com.android.externalstorage.documents/document/primary:Android%2Fdata");
-//            Intent intent1 = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-//            intent1.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
-//                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-//                    | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
-//                    | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION);
-//            intent1.putExtra(DocumentsContract.EXTRA_INITIAL_URI, uri);
-//            launcher.launch(intent1);
-//            Log.i("data", uri.toString());
-//            AlertDialog d = new AlertDialog.Builder(UserModeActivity.this).setTitle("挂载的目录").setMessage(sb.toString()).setPositiveButton("ok", null).create();
-//            d.show();
-//            updateUI();
-//        });
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

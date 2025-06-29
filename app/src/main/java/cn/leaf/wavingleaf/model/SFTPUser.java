@@ -20,7 +20,7 @@ public class SFTPUser {
     @ColumnInfo(name = "enable")
     public boolean enable;
 
-    public SFTPUser(String user, String password, String home, String label, boolean enable) {
+    public SFTPUser(@NonNull String user, String password, String home, String label, boolean enable) {
         this.user = user;
         this.password = password;
         this.home = home;

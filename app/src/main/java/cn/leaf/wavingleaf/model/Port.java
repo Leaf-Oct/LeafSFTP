@@ -19,4 +19,12 @@ public class Port {
     public int nfs;
     @ColumnInfo(name = "webdav")
     public int webdav;
+
+    public Port(int sftp, int ftp, int nfs, int webdav) {
+        this.id = 1;
+        this.sftp = sftp;
+        this.ftp = ftp;
+        this.nfs = nfs;
+        this.webdav = webdav;
+    }
 }

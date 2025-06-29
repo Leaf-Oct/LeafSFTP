@@ -1,5 +1,6 @@
 package cn.leaf.wavingleaf.fragment;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,12 +15,13 @@ import androidx.fragment.app.DialogFragment;
 import cn.leaf.wavingleaf.database.UserDao;
 import cn.leaf.wavingleaf.database.UserDatabaseSingleton;
 import cn.leaf.wavingleaf.databinding.FragmentEditPortBinding;
+import cn.leaf.wavingleaf.model.Port;
 
 public class FragmentEditPort extends DialogFragment {
     FragmentEditPortBinding binding;
     EditText sftp_port, ftp_port, nfs_port, webdav_port;
     Button sftp_default, ftp_default, nfs_default, webdav_default, btn_confirm, btn_cancel;
-
+    Port p;
 
     UserDao dao = UserDatabaseSingleton.getInstance(getContext()).getUserDao();
 
@@ -31,8 +33,17 @@ public class FragmentEditPort extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         binding = FragmentEditPortBinding.inflate(getLayoutInflater());
+        var t=new Thread(()->{
+            p = dao.getAllPorts();
+        });
+        t.start();
+        try {
+            t.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         initLayout();
-        return super.onCreateDialog(savedInstanceState);
+        return new AlertDialog.Builder(getActivity()).setTitle("编辑端口").setView(binding.getRoot()).create();
     }
 
     private void initLayout() {
@@ -47,11 +58,12 @@ public class FragmentEditPort extends DialogFragment {
         btn_confirm = binding.editPortConfirm;
         btn_cancel = binding.editPortCancel;
 
-        var p = dao.getAllPorts();
+
         sftp_port.setText(String.valueOf(p.sftp));
         ftp_port.setText(String.valueOf(p.ftp));
         nfs_port.setText(String.valueOf(p.nfs));
         webdav_port.setText(String.valueOf(p.webdav));
+
 
         sftp_default.setOnClickListener(i -> {
             sftp_port.setText("2222");
@@ -97,9 +109,7 @@ public class FragmentEditPort extends DialogFragment {
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 Toast.makeText(getContext(), "非法端口, 请输入数字", Toast.LENGTH_LONG).show();
-
             }
-
         });
     }
 }

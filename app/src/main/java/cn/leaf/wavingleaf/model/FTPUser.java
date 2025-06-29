@@ -22,7 +22,7 @@ public class FTPUser {
     @ColumnInfo(name = "writable")
     public boolean writable;
 
-    public FTPUser(String user, String password, String home, String label, boolean enable, boolean writable) {
+    public FTPUser(@NonNull String user, String password, String home, String label, boolean enable, boolean writable) {
         this.user = user;
         this.password = password;
         this.home = home;

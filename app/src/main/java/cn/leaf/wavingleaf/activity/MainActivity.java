@@ -5,16 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.IBinder;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
@@ -37,14 +41,14 @@ import java.security.Security;
 import java.util.ArrayList;
 
 import cn.leaf.wavingleaf.NetworkUtil;
-import cn.leaf.wavingleaf.R;
 import cn.leaf.wavingleaf.database.UserDao;
 import cn.leaf.wavingleaf.database.UserDatabaseSingleton;
 import cn.leaf.wavingleaf.databinding.ActivityMainBinding;
 import cn.leaf.wavingleaf.event.SFTPStatusSwitchEvent;
 import cn.leaf.wavingleaf.fragment.FragmentEditPort;
 import cn.leaf.wavingleaf.fragment.FragmentInfo;
-import cn.leaf.wavingleaf.service.SFTPServerService;
+import cn.leaf.wavingleaf.model.Port;
+import cn.leaf.wavingleaf.service.SFTPForegroundService;
 import cn.leaf.wavingleaf.sharedpreferences.Config;
 
 public class MainActivity extends AppCompatActivity {
@@ -63,8 +67,19 @@ public class MainActivity extends AppCompatActivity {
     IntentFilter filter=new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
     BroadcastReceiver net_change_receiver=new NetChangeReceiver();
 
-    UserDao dao= UserDatabaseSingleton.getInstance(this).getUserDao();
-    int sftp_runtime_port=0, ftp_runtime_port=0, nfs_runtime_port=0, webdav_runtime_port=0
+    UserDao dao;
+    int sftp_runtime_port=0, ftp_runtime_port=0, nfs_runtime_port=0, webdav_runtime_port=0;
+    SFTPForegroundService sftp_service_instance;
+
+    ServiceConnection sftp_service_connection=new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            sftp_service_instance=((SFTPForegroundService.LocalBinder)service).getService();
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+        }
+    };
 
     @Override
     protected void onResume() {
@@ -95,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (config.is_running) {
-            stopService(new Intent(MainActivity.this, SFTPServerService.class));
+            stopService(new Intent(MainActivity.this, SFTPForegroundService.class));
             config.is_running = false;
             unregisterReceiver(net_change_receiver);
         }
@@ -107,12 +122,17 @@ public class MainActivity extends AppCompatActivity {
 
     //    加載wake lock实例. 检查配置文件, 检查jks证书
     private void initData() {
+        dao=UserDatabaseSingleton.getInstance(this).getUserDao();
+        new Thread(()->{
+            if(dao.getAllPorts()==null){
+                dao.newPortConfig(new Port(2222, 2121, 2049,8080));
+            }
+        }).start();
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wake_lock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "leaf:ftp server");
         config = Config.getInstance();
         Security.removeProvider("BC");
-        System.setProperty("org.apache.sshd.security.provider.BC.enabled", "false");
-        System.setProperty("org.apache.sshd.security.registrars", "none");
+
     }
 
     private void bindView() {
@@ -158,16 +178,30 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             if (isChecked) {
-                Toast.makeText(MainActivity.this, "server start", Toast.LENGTH_SHORT).show();
-//                startService(new Intent(MainActivity.this, SFTPServerService.class));
-                sftp_runtime_port=dao.getSFTPPort();
-
+                if (config.is_running){
+                    return;
+                }
+//                Toast.makeText(MainActivity.this, "server start", Toast.LENGTH_SHORT).show();
+                var t=new Thread(()->{
+                    sftp_runtime_port=dao.getSFTPPort();
+                });
+                t.start();
+                try {
+                    t.join();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                var i=new Intent(this, SFTPForegroundService.class).putExtra("port", sftp_runtime_port);
+                startForegroundService(i);
+                bindService(i, sftp_service_connection, Context.BIND_AUTO_CREATE);
             } else {
-                Toast.makeText(MainActivity.this, "server stop", Toast.LENGTH_SHORT).show();
-//                stopService(new Intent(MainActivity.this, SFTPServerService.class));
-
+                if (!config.is_running){
+                    return;
+                }
+//                Toast.makeText(MainActivity.this, "server stop", Toast.LENGTH_SHORT).show();
+                unbindService(sftp_service_connection);
+                stopService(new Intent(MainActivity.this, SFTPForegroundService.class));
             }
-            config.is_running=isChecked;
         });
 //        sftp_switch.setOnClickListener(v -> {
 //            if (!checkPermission()) {
@@ -183,38 +217,6 @@ public class MainActivity extends AppCompatActivity {
         port_area.setOnClickListener(v -> {
             var edit_port_fragment=new FragmentEditPort();
             edit_port_fragment.show(getSupportFragmentManager(), "Ports");
-//            if (config.is_running) {
-//                //Log.w("thread", Thread.currentThread().toString());
-//                Toast.makeText(MainActivity.this, "SFTP服务运行中, 请先关闭再修改", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//            EditText input_port = new EditText(MainActivity.this);
-//            input_port.setHint("port");
-//            input_port.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-//            AlertDialog input_port_dialog = new AlertDialog.Builder(MainActivity.this)
-//                    .setTitle("设置端口")
-//                    .setView(input_port)
-//                    .setCancelable(false)
-//                    .setPositiveButton("确定", (dialogInterface, i) -> {
-//                        var port = input_port.getText().toString();
-//                        try {
-//                            int port_int = Integer.parseInt(port);
-//                            if (port_int < 1025 || port_int > 65535) {
-//                                Toast.makeText(MainActivity.this, "端口范围1025~65535", Toast.LENGTH_SHORT).show();
-//                                return;
-//                            }
-//                            config.port = port_int;
-//                            port_text.setText(port);
-//                        } catch (NumberFormatException e) {
-//                            Toast.makeText(MainActivity.this, "非法端口, 请输入数字", Toast.LENGTH_SHORT).show();
-//                            return;
-//                        }
-//                        config.saveConfig();
-//                    }).create();
-//            input_port_dialog.setOnShowListener(dialogInterface -> {
-////                input_port.setText(config.port + "");
-//            });
-//            input_port_dialog.show();
         });
         keep_active_area.setOnClickListener(view -> {
             if (config.keep_alive) {
@@ -222,31 +224,29 @@ public class MainActivity extends AppCompatActivity {
                 config.keep_alive = false;
                 if (wake_lock.isHeld()) {
                     wake_lock.release();
-                    Log.i("wake lock", "release");
+//                    Log.i("wake lock", "release");
                 }
             } else {
                 keep_active.setChecked(true);
                 config.keep_alive = true;
                 wake_lock.acquire();
-                Log.i("wake lock", "acquire");
+//                Log.i("wake lock", "acquire");
             }
         });
         battery_area.setOnClickListener(v -> {
-            if (Build.VERSION.SDK_INT >= 23) {
-                PowerManager power_manager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-                if (!power_manager.isIgnoringBatteryOptimizations(getPackageName())) {
-                    var i = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                    i.setData(Uri.parse("package:" + getPackageName()));
-                    startActivity(i);
-                } else {
-                    Toast.makeText(MainActivity.this, "已设置", Toast.LENGTH_SHORT).show();
-                }
-
+            PowerManager power_manager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            if (!power_manager.isIgnoringBatteryOptimizations(getPackageName())) {
+                var i = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                i.setData(Uri.parse("package:" + getPackageName()));
+                startActivity(i);
+            } else {
+                Toast.makeText(MainActivity.this, "已设置", Toast.LENGTH_SHORT).show();
             }
+
         });
         sftp_setting.setOnClickListener(view -> {
             if (sftp_switch.isChecked()) {
-                Toast.makeText(MainActivity.this, "FTP服务运行中, 请先关闭再修改", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "SFTP服务运行中, 请先关闭再修改", Toast.LENGTH_SHORT).show();
                 return;
             }
             var i = new Intent(MainActivity.this, SshUserModeActivity.class);
@@ -256,9 +256,9 @@ public class MainActivity extends AppCompatActivity {
             if (!config.is_running) {
                 return;
             }
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (var ip : ips) {
-                sb.append("sftp://" + ip + ":" + sftp_runtime_port + "\n");
+                sb.append("sftp://").append(ip).append(":").append(sftp_runtime_port).append("\n");
             }
             var dialog = new AlertDialog.Builder(MainActivity.this).setTitle("可用地址").setMessage(sb.toString()).setPositiveButton("ok", null).create();
             dialog.show();
@@ -282,15 +282,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateUI(){
         if (config.is_running) {
-//            ftp_switch.setBackground(getResources().getDrawable(R.drawable.circle_on, null));
-//            ftp_switch.setImageDrawable(getResources().getDrawable(R.drawable.power_on, null));
             sftp_switch.setChecked(true);
             sftp_address_text.setClickable(true);
             ips = NetworkUtil.getAllAddress();
-            sftp_address_text.setText("sftp://" + ips.get(0) + ":" + sftp_runtime_port);
+            sftp_address_text.setText(new StringBuilder().append("sftp://").append(ips.get(0)).append(":").append(sftp_runtime_port).toString());
         } else {
-//            ftp_switch.setBackground(getResources().getDrawable(R.drawable.circle, null));
-//            ftp_switch.setImageDrawable(getResources().getDrawable(R.drawable.power, null));
             sftp_switch.setChecked(false);
             sftp_address_text.setClickable(false);
             sftp_address_text.setText("未启动");
@@ -298,11 +294,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean checkPermission() {
-        //        R是Android11
+//        R是Android11
 //      读写存储文件
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (!Environment.isExternalStorageManager()) {
-                Toast.makeText(this, "need inner storage permission", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "need inner storage permission", Toast.LENGTH_SHORT).show();
                 var i = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
                 i.setData(Uri.parse("package:" + this.getPackageName()));
                 startActivity(i);
@@ -326,8 +322,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             ips = NetworkUtil.getAllAddress();
-//            address_text.setText("sftp://" + ips.get(0) + ":" + config.port);
-            //TODO 更改UI
+            updateUI();
         }
     }
 }

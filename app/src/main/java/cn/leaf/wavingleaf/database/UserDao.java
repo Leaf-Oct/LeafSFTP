@@ -38,6 +38,9 @@ public interface UserDao {
     @Query("SELECT * FROM ports WHERE id=1")
     Port getAllPorts();
 
+    @Insert
+    void newPortConfig(Port p);
+
     @Update
     void updatePortConfig(Port p);
 
