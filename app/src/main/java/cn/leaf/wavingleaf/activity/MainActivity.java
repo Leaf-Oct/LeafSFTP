@@ -142,11 +142,11 @@ public class MainActivity extends AppCompatActivity {
         sftp_address_text=binding.sftpAddress;
         sftp_setting=binding.sftpSetting;
 
+
+        ftp_switch=binding.ftpSwitch;
+        ftp_address_text=binding.ftpAddress;
+        ftp_setting=binding.ftpSetting;
 //        功能没开发完成，先不启用
-//        ftp_switch=binding.ftpSwitch;
-//        ftp_address_text=binding.ftpAddress;
-//        ftp_setting=binding.ftpSetting;
-//
 //        nfs_switch=binding.nfsSwitch;
 //        nfs_address_text=binding.nfsAddress;
 //        nfs_setting=binding.nfsSetting;
