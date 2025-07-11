@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
 import org.apache.sshd.common.file.FileSystemFactory;
 import org.apache.sshd.common.file.virtualfs.VirtualFileSystemFactory;
@@ -77,17 +78,19 @@ public class SFTPForegroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.e("get port", "get,port");
         port=intent.getIntExtra("port", 2222);
-        Log.e("sftp", "start");
-        startSFTP();
-        Log.e("foreground", "start");
+        try {
+            startSFTP();
+        } catch (Exception e){
+            new AlertDialog.Builder(this).setTitle("error").setMessage(e.getMessage()).create().show();
+            stopSelf();
+            return START_STICKY;
+        }
         startForeground(NOTIFICATION_ID, createNotification());
-        Log.e("return", "r");
         return START_STICKY_COMPATIBILITY;
     }
 
-    private void startSFTP(){
+    private void startSFTP() throws Exception{
         sshd = SshServer.setUpDefaultServer();
         sshd.setPort(port);
         sshd.setHost("0.0.0.0");
@@ -124,7 +127,7 @@ public class SFTPForegroundService extends Service {
             }
             EventBus.getDefault().post(new SFTPStatusSwitchEvent());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 

@@ -165,9 +165,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-//        port_text.setText(config.port + "");
         keep_active.setChecked(config.keep_alive);
-//        sftp_address_text.setText("未启动");
         updateUI();
     }
 
@@ -181,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
                 if (config.is_running){
                     return;
                 }
-//                Toast.makeText(MainActivity.this, "server start", Toast.LENGTH_SHORT).show();
                 var t=new Thread(()->{
                     sftp_runtime_port=dao.getSFTPPort();
                 });
@@ -203,17 +200,6 @@ public class MainActivity extends AppCompatActivity {
                 stopService(new Intent(MainActivity.this, SFTPForegroundService.class));
             }
         });
-//        sftp_switch.setOnClickListener(v -> {
-//            if (!checkPermission()) {
-//                Toast.makeText(MainActivity.this, "no permission", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//            if (!config.is_running) {
-//                startService(new Intent(MainActivity.this, SFTPServerService.class));
-//            } else {
-//                stopService(new Intent(MainActivity.this, SFTPServerService.class));
-//            }
-//        });
         port_area.setOnClickListener(v -> {
             var edit_port_fragment=new FragmentEditPort();
             edit_port_fragment.show(getSupportFragmentManager(), "Ports");
@@ -249,8 +235,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "SFTP服务运行中, 请先关闭再修改", Toast.LENGTH_SHORT).show();
                 return;
             }
-            var i = new Intent(MainActivity.this, SshUserModeActivity.class);
-            startActivity(i);
+            startActivity(new Intent(MainActivity.this, SshUserModeActivity.class));
         });
         sftp_address_text.setOnClickListener(view -> {
             if (!config.is_running) {
@@ -263,9 +248,20 @@ public class MainActivity extends AppCompatActivity {
             var dialog = new AlertDialog.Builder(MainActivity.this).setTitle("可用地址").setMessage(sb.toString()).setPositiveButton("ok", null).create();
             dialog.show();
         });
+        ftp_switch.setOnClickListener(v->{
+
+        });
+        ftp_setting.setOnClickListener(v->{
+            if (ftp_switch.isChecked()) {
+                Toast.makeText(MainActivity.this, "FTP服务运行中, 请先关闭再修改", Toast.LENGTH_SHORT).show();
+                return;
+            }
+//            var i = new Intent(MainActivity.this, SshUserModeActivity.class);
+            startActivity(new Intent(MainActivity.this, FtpUsersActivity.class));
+        });
         if (config.keep_alive) {
             wake_lock.acquire();
-            Log.i("wake lock", "acquire");
+//            Log.i("wake lock", "acquire");
         }
         info_btn.setOnClickListener(v->new FragmentInfo().show(getSupportFragmentManager(), "Waving Leaf"));
     }

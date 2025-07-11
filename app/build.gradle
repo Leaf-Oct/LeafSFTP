@@ -48,6 +48,9 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.activity:activity:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
 //    def sshd_version = "2.12.1"
     def sshd_version = "2.15.0"
     // https://mvnrepository.com/artifact/org.apache.sshd/sshd-contrib
