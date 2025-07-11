@@ -1,0 +1,51 @@
+-dontwarn net.i2p.crypto.eddsa.EdDSAPrivateKey
+-dontwarn net.i2p.crypto.eddsa.EdDSAPublicKey
+-dontwarn net.i2p.crypto.eddsa.math.Curve
+-dontwarn net.i2p.crypto.eddsa.math.GroupElement
+-dontwarn net.i2p.crypto.eddsa.spec.EdDSAParameterSpec
+-dontwarn org.bouncycastle.crypto.prng.RandomGenerator
+-dontwarn org.bouncycastle.crypto.prng.VMPCRandomGenerator
+-dontwarn org.slf4j.impl.StaticLoggerBinder
+-dontwarn javax.management.MBeanException
+-dontwarn javax.management.ReflectionException
+-dontwarn org.bouncycastle.pqc.crypto.mlkem.MLKEMParameters
+-dontwarn org.bouncycastle.pqc.crypto.ntruprime.SNTRUPrimeParameters
+-dontwarn javax.security.auth.login.CredentialException
+-dontwarn javax.security.auth.login.FailedLoginException
+-dontwarn net.i2p.crypto.eddsa.EdDSAKey
+-dontwarn net.i2p.crypto.eddsa.spec.EdDSANamedCurveSpec
+-dontwarn net.i2p.crypto.eddsa.spec.EdDSANamedCurveTable
+-dontwarn net.i2p.crypto.eddsa.spec.EdDSAPrivateKeySpec
+-dontwarn net.i2p.crypto.eddsa.spec.EdDSAPublicKeySpec
+-dontwarn org.bouncycastle.asn1.pkcs.PrivateKeyInfo
+-dontwarn org.bouncycastle.crypto.AsymmetricCipherKeyPair
+-dontwarn org.bouncycastle.crypto.KeyGenerationParameters
+-dontwarn org.bouncycastle.crypto.SecretWithEncapsulation
+-dontwarn org.bouncycastle.crypto.params.AsymmetricKeyParameter
+-dontwarn org.bouncycastle.operator.InputDecryptorProvider
+-dontwarn org.bouncycastle.pkcs.PKCS8EncryptedPrivateKeyInfo
+-dontwarn org.bouncycastle.pkcs.PKCSException
+-dontwarn org.bouncycastle.pkcs.jcajce.JcePKCSPBEInputDecryptorProviderBuilder
+-dontwarn org.bouncycastle.pqc.crypto.mlkem.MLKEMExtractor
+-dontwarn org.bouncycastle.pqc.crypto.mlkem.MLKEMGenerator
+-dontwarn org.bouncycastle.pqc.crypto.mlkem.MLKEMKeyGenerationParameters
+-dontwarn org.bouncycastle.pqc.crypto.mlkem.MLKEMKeyPairGenerator
+-dontwarn org.bouncycastle.pqc.crypto.mlkem.MLKEMPrivateKeyParameters
+-dontwarn org.bouncycastle.pqc.crypto.mlkem.MLKEMPublicKeyParameters
+-dontwarn org.bouncycastle.pqc.crypto.ntruprime.SNTRUPrimeKEMExtractor
+-dontwarn org.bouncycastle.pqc.crypto.ntruprime.SNTRUPrimeKEMGenerator
+-dontwarn org.bouncycastle.pqc.crypto.ntruprime.SNTRUPrimeKeyGenerationParameters
+-dontwarn org.bouncycastle.pqc.crypto.ntruprime.SNTRUPrimeKeyPairGenerator
+-dontwarn org.bouncycastle.pqc.crypto.ntruprime.SNTRUPrimePrivateKeyParameters
+-dontwarn org.bouncycastle.pqc.crypto.ntruprime.SNTRUPrimePublicKeyParameters
+-dontwarn org.ietf.jgss.GSSContext
+-dontwarn org.ietf.jgss.GSSCredential
+-dontwarn org.ietf.jgss.GSSException
+-dontwarn org.ietf.jgss.GSSManager
+-dontwarn org.ietf.jgss.GSSName
+-dontwarn org.ietf.jgss.MessageProp
+-dontwarn org.ietf.jgss.Oid
+
+-keep class org.apache.sshd.common.forward.PortForwardingEventListener
+-keep class org.apache.sshd.sftp.server.SftpEventListener
+-keep class org.apache.sshd.common.io.nio2.Nio2ServiceFactoryFactory

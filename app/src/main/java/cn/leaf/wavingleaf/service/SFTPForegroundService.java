@@ -1,6 +1,5 @@
 package cn.leaf.wavingleaf.service;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -10,7 +9,6 @@ import android.os.Binder;
 import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
-
 import androidx.annotation.Nullable;
 
 import org.apache.sshd.common.file.FileSystemFactory;
@@ -79,14 +77,17 @@ public class SFTPForegroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.e("get port", "get,port");
         port=intent.getIntExtra("port", 2222);
+        Log.e("sftp", "start");
         startSFTP();
+        Log.e("foreground", "start");
         startForeground(NOTIFICATION_ID, createNotification());
+        Log.e("return", "r");
         return START_STICKY_COMPATIBILITY;
     }
 
     private void startSFTP(){
-
         sshd = SshServer.setUpDefaultServer();
         sshd.setPort(port);
         sshd.setHost("0.0.0.0");
@@ -115,12 +116,13 @@ public class SFTPForegroundService extends Service {
             }
         });
         sshd.setSubsystemFactories(Arrays.asList(new SftpSubsystemFactory()));
-        EventBus.getDefault().post(new SFTPStatusSwitchEvent());
+
         try {
             synchronized (this) {
                 sshd.start();
                 config.is_running = true;
             }
+            EventBus.getDefault().post(new SFTPStatusSwitchEvent());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

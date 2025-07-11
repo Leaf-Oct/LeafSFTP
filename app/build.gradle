@@ -24,14 +24,19 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        debug{
-            minifyEnabled false
-            shrinkResources false
+//        debug{
+//            minifyEnabled false
+//            shrinkResources false
+//        }
+        debug {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
     buildFeatures {
         viewBinding true
@@ -43,9 +48,10 @@ android {
 }
 
 dependencies {
-    def sshd_version = "2.12.1"
+//    def sshd_version = "2.12.1"
+    def sshd_version = "2.15.0"
     // https://mvnrepository.com/artifact/org.apache.sshd/sshd-contrib
-    implementation "org.apache.sshd:sshd-contrib:$sshd_version"
+//    implementation "org.apache.sshd:sshd-contrib:$sshd_version"
     implementation "org.apache.sshd:sshd-common:$sshd_version"
     implementation "org.apache.sshd:sshd-core:$sshd_version"
     implementation "org.apache.sshd:sshd-sftp:$sshd_version"
