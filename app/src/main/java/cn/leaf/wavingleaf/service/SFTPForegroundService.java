@@ -6,16 +6,15 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
-import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 
 import org.apache.sshd.common.file.FileSystemFactory;
 import org.apache.sshd.common.file.virtualfs.VirtualFileSystemFactory;
 import org.apache.sshd.common.session.SessionContext;
 import org.apache.sshd.common.signature.BuiltinSignatures;
+import org.apache.sshd.server.ServerBuilder;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.apache.sshd.sftp.server.SftpSubsystemFactory;
@@ -45,7 +44,8 @@ public class SFTPForegroundService extends Service {
     private static final String CHANNEL_ID = "sftp_service_channel";
     public int port;
     private final IBinder binder=new LocalBinder();
-
+    private Callback c;
+    public final int OK=0, EXIT=1, TROUBLE=-1;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -82,7 +82,8 @@ public class SFTPForegroundService extends Service {
         try {
             startSFTP();
         } catch (Exception e){
-            new AlertDialog.Builder(this).setTitle("error").setMessage(e.getMessage()).create().show();
+            c.error("SFTP Service 启动失败");
+            e.printStackTrace();
             stopSelf();
             return START_STICKY;
         }
@@ -91,7 +92,7 @@ public class SFTPForegroundService extends Service {
     }
 
     private void startSFTP() throws Exception{
-        sshd = SshServer.setUpDefaultServer();
+        sshd=new ServerBuilder().build(true);
         sshd.setPort(port);
         sshd.setHost("0.0.0.0");
         sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(Paths.get(new File(getExternalFilesDir(null), "key").toURI())));
@@ -130,13 +131,12 @@ public class SFTPForegroundService extends Service {
             throw e;
         }
     }
-
     private void stopSFTP(){
         if (sshd != null && !sshd.isClosed()) {
             try {
                 sshd.stop();
             } catch (IOException e) {
-                Log.e(TAG, "Error stopping SFTP server", e);
+                Log.i(TAG, "Error stopping SFTP server", e);
             }
         }
     }
@@ -149,8 +149,12 @@ public class SFTPForegroundService extends Service {
         }
         EventBus.getDefault().post(new SFTPStatusSwitchEvent());
     }
-
-
+    public interface Callback{
+        void error(String message);
+    }
+    public void setCallback(Callback c){
+        this.c=c;
+    }
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {

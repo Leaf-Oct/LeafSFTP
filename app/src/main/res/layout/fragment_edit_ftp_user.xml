@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragment.FragmentEditFTPUser">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Label"
+        android:inputType="text"
+        android:maxLength="30"
+        android:id="@+id/input_label"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="User name"
+        android:inputType="text"
+        android:maxLength="20"
+        android:id="@+id/input_username"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="text"
+        android:maxLength="30"
+        android:id="@+id/input_password"/>
+    <TextView
+        android:id="@+id/labelPath"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Home Dir"
+        android:textSize="12sp" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:hint="Home Dir"
+        android:text="/"
+        android:id="@+id/input_home"/>
+    <androidx.appcompat.widget.SwitchCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="写权限"
+        android:textSize="16sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_browse"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="browse"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btn_internal"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="internal storage"
+            android:textSize="12sp"/>
+
+        <Button
+            android:id="@+id/btn_SD"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="SD Card"
+            android:textSize="12sp"
+            android:visibility="gone"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp">
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:text="Delete"
+            android:visibility="invisible"
+            style="?android:attr/buttonBarButtonStyle"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"/>
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel"
+            style="?android:attr/buttonBarButtonStyle"/>
+
+        <Button
+            android:id="@+id/btn_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Apply"
+            style="?android:attr/buttonBarButtonStyle"/>
+    </LinearLayout>
+
+
+</LinearLayout>

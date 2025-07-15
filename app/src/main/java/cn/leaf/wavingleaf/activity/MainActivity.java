@@ -69,12 +69,14 @@ public class MainActivity extends AppCompatActivity {
 
     UserDao dao;
     int sftp_runtime_port=0, ftp_runtime_port=0, nfs_runtime_port=0, webdav_runtime_port=0;
-    SFTPForegroundService sftp_service_instance;
 
     ServiceConnection sftp_service_connection=new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            sftp_service_instance=((SFTPForegroundService.LocalBinder)service).getService();
+            var sftp_service_instance=((SFTPForegroundService.LocalBinder)service).getService();
+            sftp_service_instance.setCallback((message) -> {
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+            });
         }
         @Override
         public void onServiceDisconnected(ComponentName name) {
@@ -294,7 +296,6 @@ public class MainActivity extends AppCompatActivity {
 //      读写存储文件
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (!Environment.isExternalStorageManager()) {
-//                Toast.makeText(this, "need inner storage permission", Toast.LENGTH_SHORT).show();
                 var i = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
                 i.setData(Uri.parse("package:" + this.getPackageName()));
                 startActivity(i);

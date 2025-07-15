@@ -46,6 +46,8 @@
 -dontwarn org.ietf.jgss.MessageProp
 -dontwarn org.ietf.jgss.Oid
 
+-keep class org.apache.sshd.common.session.SessionListener
+-keep class org.apache.sshd.common.channel.ChannelListener
 -keep class org.apache.sshd.common.forward.PortForwardingEventListener
 -keep class org.apache.sshd.sftp.server.SftpEventListener
 -keep class org.apache.sshd.common.io.nio2.Nio2ServiceFactoryFactory

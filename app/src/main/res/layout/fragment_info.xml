@@ -7,11 +7,6 @@
     tools:context=".fragment.FragmentInfo"
     android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="阴间配色怎么了? 我就喜欢" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
