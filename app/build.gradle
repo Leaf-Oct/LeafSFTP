@@ -10,8 +10,8 @@ android {
         applicationId "cn.leaf.wavingleaf"
         minSdk 26
         targetSdk 35
-        versionCode 3
-        versionName "1.2"
+        versionCode 4
+        versionName "1.2.1"
 
 //        ndk{
 //            abiFilters 'armeabi-v7a', 'arm64-v8a'
@@ -60,7 +60,7 @@ dependencies {
     implementation "org.apache.sshd:sshd-sftp:$sshd_version"
 //    implementation "org.apache.sshd:sshd-netty:$sshd_version"
 //    SFTP组件调试用，否则不输出日志的
-    implementation 'org.slf4j:slf4j-simple:2.0.17'
+//    implementation 'org.slf4j:slf4j-simple:2.0.17'
 
 //    增加ftp的功能时再启用
 //    implementation 'org.apache.ftpserver:ftplet-api:1.2.0'
