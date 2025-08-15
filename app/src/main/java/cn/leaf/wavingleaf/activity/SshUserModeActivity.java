@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -24,7 +25,7 @@ import cn.leaf.wavingleaf.databinding.ActivitySshUserModeBinding;
 import cn.leaf.wavingleaf.event.UpdateUserInfoEvent;
 import cn.leaf.wavingleaf.fragment.FragmentEditUser;
 
-public class SshUserModeActivity extends AppCompatActivity {
+public class SshUserModeActivity extends AppCompatActivity implements View.OnClickListener {
     ActivitySshUserModeBinding binding;
     RecyclerView user_list;
     FloatingActionButton add_user;
@@ -82,11 +83,7 @@ public class SshUserModeActivity extends AppCompatActivity {
     }
 
     private void initAction() {
-        add_user.setOnClickListener(v->{
-            var edit_fragment=new FragmentEditUser(true, null, adapter);
-            edit_fragment.show(getSupportFragmentManager(), "dialog");
-        });
-
+        add_user.setOnClickListener(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -95,4 +92,9 @@ public class SshUserModeActivity extends AppCompatActivity {
         edit_fragment.show(getSupportFragmentManager(), "dialog");
     }
 
+    @Override
+    public void onClick(View v) {
+        var edit_fragment=new FragmentEditUser(true, null, adapter);
+        edit_fragment.show(getSupportFragmentManager(), "dialog");
+    }
 }

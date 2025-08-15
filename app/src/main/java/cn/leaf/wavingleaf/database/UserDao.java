@@ -9,6 +9,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import cn.leaf.wavingleaf.model.FTPUser;
 import cn.leaf.wavingleaf.model.Port;
 import cn.leaf.wavingleaf.model.SFTPUser;
 
@@ -55,4 +56,20 @@ public interface UserDao {
 
     @Query("SELECT webdav FROM ports WHERE id=1")
     int getWebDavPort();
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertFTPUser(FTPUser ftpUser);
+
+    @Update
+    void updateFTPUser(FTPUser ftpUser);
+
+    @Delete
+    void deleteFTPUser(FTPUser ftpUser);
+
+    @Query("SELECT * FROM ftp_users")
+    List<FTPUser> getAllFTPUsers();
+
+    @Query("SELECT pwd FROM ftp_users WHERE user=:user_name")
+    String getPwdFromFTPUser(String user_name);
 }

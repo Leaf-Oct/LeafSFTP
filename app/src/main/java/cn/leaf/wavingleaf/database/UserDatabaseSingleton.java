@@ -13,7 +13,7 @@ public class UserDatabaseSingleton {
 
     private UserDatabaseSingleton(Context context) {
         user_database = Room.databaseBuilder(context, UserDatabase.class, DATABASE_NAME).build();
-        dao = user_database.sshUserDao();
+        dao = user_database.getDBDao();
     }
 
     public UserDao getUserDao() {

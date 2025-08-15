@@ -28,10 +28,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LeafFtp"
         tools:targetApi="35">
+        <service
+            android:name=".service.FTPForegroundService"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".activity.FtpUsersActivity"
-            android:theme="@style/Theme.AppCompat.DayNight"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.DayNight" />
 
         <service
             android:name=".service.SFTPForegroundService"
@@ -40,14 +45,15 @@
 
         <activity
             android:name=".activity.SshUserModeActivity"
-            android:theme="@style/Theme.AppCompat.DayNight"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.DayNight" />
         <activity
             android:name=".activity.MainActivity"
-            android:theme="@style/Theme.AppCompat.DayNight"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

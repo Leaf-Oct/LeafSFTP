@@ -40,36 +40,36 @@ public class FragmentEditUser extends DialogFragment {
 
     UserListUpdateListener listener;
 
-    Config config=Config.getInstance();
+    Config config = Config.getInstance();
 
-    UserDao dao=UserDatabaseSingleton.getInstance(getContext()).getUserDao();
+    UserDao dao = UserDatabaseSingleton.getInstance(getContext()).getUserDao();
 
     public FragmentEditUser(boolean is_new, SFTPUser user, UserListUpdateListener l) {
         this.is_new = is_new;
         this.user = user;
-        listener=l;
+        listener = l;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        binding=FragmentEditUserBinding.inflate(getLayoutInflater());
+        binding = FragmentEditUserBinding.inflate(getLayoutInflater());
         initLayout();
-        return new AlertDialog.Builder(getActivity()).setTitle(is_new?"New User":"Edit").setView(binding.getRoot()).create();
+        return new AlertDialog.Builder(getActivity()).setTitle(is_new ? "New User" : "Edit").setView(binding.getRoot()).create();
     }
 
-    private void initLayout(){
-        input_label=binding.inputLabel;
-        input_user=binding.inputUsername;
-        input_password=binding.inputPassword;
-        input_home=binding.inputHome;
-        btn_browse= binding.btnBrowse;
-        btn_in=binding.btnInternal;
-        btn_sd=binding.btnSD;
-        btn_delete=binding.btnDelete;
-        btn_cancel=binding.btnCancel;
-        btn_apply=binding.btnApply;
-        if (!is_new){
+    private void initLayout() {
+        input_label = binding.inputLabel;
+        input_user = binding.inputUsername;
+        input_password = binding.inputPassword;
+        input_home = binding.inputHome;
+        btn_browse = binding.btnBrowse;
+        btn_in = binding.btnInternal;
+        btn_sd = binding.btnSD;
+        btn_delete = binding.btnDelete;
+        btn_cancel = binding.btnCancel;
+        btn_apply = binding.btnApply;
+        if (!is_new) {
             btn_delete.setVisibility(View.VISIBLE);
             input_label.setText(user.label);
             input_user.setText(user.user);
@@ -77,75 +77,75 @@ public class FragmentEditUser extends DialogFragment {
             input_password.setText(user.password);
             input_home.setText(user.home);
         }
-        if(config.has_SD_card){
+        if (config.has_SD_card) {
             btn_sd.setVisibility(View.VISIBLE);
             btn_sd.setOnClickListener(view -> {
                 input_home.setText(config.SD_card_path);
             });
         }
-        btn_browse.setOnClickListener(v->{
+        btn_browse.setOnClickListener(v -> {
             var intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-            var uri= Uri.parse("content://com.android.externalstorage.documents/document/primary:");
+            var uri = Uri.parse("content://com.android.externalstorage.documents/document/primary:");
             intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, uri);
             custom_launcher.launch(intent);
         });
         btn_in.setOnClickListener(view -> {
             input_home.setText(Environment.getExternalStorageDirectory().getAbsolutePath());
         });
-        btn_delete.setOnClickListener(v->{
+        btn_delete.setOnClickListener(v -> {
             delete();
             dismiss();
         });
-        btn_cancel.setOnClickListener(v->{
+        btn_cancel.setOnClickListener(v -> {
             dismiss();
         });
-        btn_apply.setOnClickListener(v->{
+        btn_apply.setOnClickListener(v -> {
             apply();
         });
     }
-    private void apply(){
-        var label=input_label.getText().toString();
-        var username=input_user.getText().toString();
-        var pwd=input_password.getText().toString();
-        var home=input_home.getText().toString();
-        if(label.isBlank()||username.isBlank()||pwd.isBlank()||home.isBlank()){
+
+    private void apply() {
+        var label = input_label.getText().toString();
+        var username = input_user.getText().toString();
+        var pwd = input_password.getText().toString();
+        var home = input_home.getText().toString();
+        if (label.isBlank() || username.isBlank() || pwd.isBlank() || home.isBlank()) {
             Toast.makeText(getActivity(), "不能留空", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(is_new){
-            new Thread(()->{
-                var save_pwd=dao.getPwdFromSFTPUser(username);
-                if (save_pwd!=null){
-                    getActivity().runOnUiThread(()->Toast.makeText(getContext(), "用户名已存在", Toast.LENGTH_SHORT).show());
+        if (is_new) {
+            new Thread(() -> {
+                var save_pwd = dao.getPwdFromSFTPUser(username);
+                if (save_pwd != null) {
+                    getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "用户名已存在", Toast.LENGTH_SHORT).show());
                     return;
                 }
-                user=new SFTPUser(username, pwd, home, label, true);
+                user = new SFTPUser(username, pwd, home, label, true);
                 dao.insertSFTPUser(user);
-                var list=dao.getAllSFTPUsers();
-                getActivity().runOnUiThread(()->{
+                var list = dao.getAllSFTPUsers();
+                getActivity().runOnUiThread(() -> {
                     listener.update(list);
                     dismiss();
                 });
             }).start();
+            return;
         }
-        else {
-            user.label=label;
-            user.password=pwd;
-            user.home=home;
-            new Thread(() -> {
-                dao.updateSFTPUser(user);
-                var list=dao.getAllSFTPUsers();
-                getActivity().runOnUiThread(()->listener.update(list));
-            }).start();
-            dismiss();
-        }
-
+        user.label = label;
+        user.password = pwd;
+        user.home = home;
+        new Thread(() -> {
+            dao.updateSFTPUser(user);
+            var list = dao.getAllSFTPUsers();
+            getActivity().runOnUiThread(() -> listener.update(list));
+        }).start();
+        dismiss();
     }
-    private void delete(){
-        new Thread(()->{
+
+    private void delete() {
+        new Thread(() -> {
             dao.deleteSFTPUser(user);
             var list=dao.getAllSFTPUsers();
-            getActivity().runOnUiThread(()->listener.update(list));
+            getActivity().runOnUiThread(() -> listener.update(list));
         }).start();
     }
 
@@ -154,28 +154,26 @@ public class FragmentEditUser extends DialogFragment {
         super.onDestroy();
     }
 
-    ActivityResultLauncher<Intent> custom_launcher= registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        var i=result.getData();
+    ActivityResultLauncher<Intent> custom_launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        var i = result.getData();
 //        未选择
-        if(i==null){
+        if (i == null) {
             return;
         }
-        var uri=i.getData();
-        if(uri==null){
+        var uri = i.getData();
+        if (uri == null) {
             return;
         }
 //        选择的文件夹是内部存储还是SD卡需要不同处理
 //        内部存储的uri.getPath()是/tree/primary:开头
 //        而SD卡会是/tree/XXXX-XXXX这种形式开头
-        var uri_path=uri.getPath();
-        if(uri_path.startsWith("/tree/primary:")){
-            uri_path=uri_path.replace("/tree/primary:", Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator);
-        }
-        else if(uri_path.startsWith("/tree")&&config.has_SD_card){
-            uri_path=config.SD_card_path+ File.separator+uri_path.substring(uri_path.indexOf(":")+1);
-        }
-        else {
-            uri_path="dir path error!!!";
+        var uri_path = uri.getPath();
+        if (uri_path.startsWith("/tree/primary:")) {
+            uri_path = uri_path.replace("/tree/primary:", Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator);
+        } else if (uri_path.startsWith("/tree") && config.has_SD_card) {
+            uri_path = config.SD_card_path + File.separator + uri_path.substring(uri_path.indexOf(":") + 1);
+        } else {
+            uri_path = "dir path error!!!";
         }
         input_home.setText(uri_path);
     });
