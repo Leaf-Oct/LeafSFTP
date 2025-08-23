@@ -46,8 +46,16 @@
 -dontwarn org.ietf.jgss.MessageProp
 -dontwarn org.ietf.jgss.Oid
 
+-dontwarn org.slf4j.impl.StaticMDCBinder
+
 -keep class org.apache.sshd.common.session.SessionListener
 -keep class org.apache.sshd.common.channel.ChannelListener
 -keep class org.apache.sshd.common.forward.PortForwardingEventListener
 -keep class org.apache.sshd.sftp.server.SftpEventListener
 -keep class org.apache.sshd.common.io.nio2.Nio2ServiceFactoryFactory
+
+#-keep class org.apache.mina.transport.socket.nio.NioProcessor
+-keep class org.apache.mina.transport.socket.nio.**{*;}
+#-keep class java.util.concurrent.ExecutorService
+#-keep class java.util.concurrent.Executor
+#-keep class org.apache.mina.transport.**{*;}
