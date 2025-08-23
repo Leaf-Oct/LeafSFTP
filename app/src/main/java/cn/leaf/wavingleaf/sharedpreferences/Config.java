@@ -21,7 +21,7 @@ public class Config {
     public String SD_card_path="";
 //    public int port=2222;
     public boolean keep_alive=false;
-    public boolean is_running=false;
+    public boolean sftp_is_running=false, ftp_is_running=false;
     public boolean has_SD_card=false;
     private File json;
     private JSONObject json_obj;

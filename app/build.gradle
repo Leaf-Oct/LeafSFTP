@@ -63,8 +63,8 @@ dependencies {
 //    implementation 'org.slf4j:slf4j-simple:2.0.17'
 
 //    增加ftp的功能时再启用
-//    implementation 'org.apache.ftpserver:ftplet-api:1.2.0'
-//    implementation 'org.apache.ftpserver:ftpserver-core:1.2.0'
+    implementation 'org.apache.ftpserver:ftplet-api:1.2.0'
+    implementation 'org.apache.ftpserver:ftpserver-core:1.2.0'
 
     implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'com.google.android.material:material:1.12.0'
@@ -75,8 +75,4 @@ dependencies {
     def room_version = "2.7.0"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
-//    def work_version = "2.9.1"
-//    def work_version = "2.9.0"
-//    def work_version = "2.10.2"
-//    implementation "androidx.work:work-runtime:$work_version"
 }
