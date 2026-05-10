@@ -32,7 +32,8 @@
             android:name=".service.FTPForegroundService"
             android:enabled="true"
             android:exported="true"
-            android:foregroundServiceType="dataSync"/>
+            android:foregroundServiceType="dataSync"
+            android:process=":ftp_process"/>
 
         <activity
             android:name=".activity.FtpUsersActivity"
@@ -42,7 +43,9 @@
         <service
             android:name=".service.SFTPForegroundService"
             android:exported="false"
-            android:foregroundServiceType="dataSync" />
+            android:enabled="true"
+            android:foregroundServiceType="dataSync"
+            android:process=":sftp_process"/>
 
         <activity
             android:name=".activity.SshUserModeActivity"
